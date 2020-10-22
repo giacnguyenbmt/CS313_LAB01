@@ -6,14 +6,13 @@ if __name__ == '__main__':
     if len(argumentList) == 3:
         Option, Input, Log = argumentList
         if Option == 'summary':
-            # summary
-            pass
+            summary.summary(Input, Log)
         else:
             print("Option error!")
     else:
         Option, Input, Output, Log = argumentList
         if Option == 'replace':
-            pass
+            replace.replace(Input, Output, Log)
         elif Option == 'discretize':
             pass
         elif Option == 'normalize':
