@@ -1,2 +1,3 @@
 # CS313_LAB01
- - môn học CS313Bài tập thực hành 1: Tiền xử lý dữ liệu
+Môn học Khai thác dữ liệu và ứng dụng <br>
+Bài tập thực hành 1: Tiền xử lý dữ liệu
