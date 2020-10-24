@@ -1,0 +1,6 @@
+pip install pandas
+
+python main.py summary data/adult_20.csv log.txt
+python main.py replace data/adult_20_missing.csv data/Output.csv log.txt
+python main.py discretize data/adult_20.csv data/Output.csv log.txt
+python main.py normalize data/adult_20.csv data/Output.csv log.txt

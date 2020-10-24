@@ -41,18 +41,20 @@ def fill_nominal(arr):
 
 def replace(Input, Output, Log):
     """
-    Thực hiện replace, lưu dữ liệu Output và ghi thông tin ra log file.
+    Thực hiện chức năng replace, lưu dữ liệu Output và ghi thông tin ra log file.
     """
     df = pd.read_csv(Input)
     df = pc.modify_missing_value(df)
+    print(df)
     data_types = pc.get_type(df)[:-1]
-    columns = df.columns[:-1]
+    columns = np.array(df.columns[:-1])
     with open(Log, 'w', encoding="utf8") as f:
         for i in range(len(data_types)):
             if data_types[i] == "numeric":
                 df.iloc[:, i], value, count = fill_numeric(df.iloc[:, i].to_numpy())
             else:
                 df.iloc[:, i], value, count = fill_nominal(df.iloc[:, i].to_numpy())
-            f.write("Thuộc tính: {:>10}, {:>4}, {:>8}\n".format(columns[i], count, value))
+            if count != 0:
+                f.write("Thuộc tính: {:>15}, {:>4}, {}\n".format(columns[i], count, value))
         f.close()
     df.to_csv(Output, index=False)

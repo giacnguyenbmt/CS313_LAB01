@@ -3,7 +3,7 @@ import src.preprocessing as pc
 
 def summary(Input, Log):
     """
-    Thực hiện summary và ghi thông tin ra log file.
+    Thực hiện chức năng summary và ghi thông tin ra log file.
     """
     # Đọc dữ liệu với pandas
     df = pd.read_csv(Input)
