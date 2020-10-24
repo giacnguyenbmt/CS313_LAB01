@@ -1,6 +1,7 @@
 import pandas as pd
 import math
 
+
 def modify_missing_value(df):
     """
     Chuyển giá trị bị khuyết bằng NaN.

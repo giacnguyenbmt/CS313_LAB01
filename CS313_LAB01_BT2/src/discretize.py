@@ -55,16 +55,48 @@ def EqualWidth(arr, num_bin):
     return bin_, domain, counts
 
 
-def ReplaceValue(bin_, domain):
+def SmoothingByMeans(arr):
+    """
+    Làm trơn bằng giá trị trung bình giỏ.
+    """
+    return np.full(arr.shape, arr.mean())
+
+
+def SmoothingByBoundaries(arr):
+    """
+    Làm trơn bằng biên giỏ.
+    """
+    new_val = arr.copy()
+    for i in range(len(arr)):
+        if (arr[i] - arr[0]) < (arr[-1] - arr[i]):
+            new_val[i] = arr[0]
+        else:
+            new_val[i] = arr[-1]
+    return new_val
+
+
+def SmoothingByMedian(arr):
+    """
+    Làm trơn bằng trung tuyến giỏ.
+    """
+    return np.full(arr.shape, arr[len(arr)//2])
+
+
+def ReplaceValue(bin_, arr, s_method):
     """
     Thay giá trị các phần tử bằng miền giá trị của giỏ tương ứng.
     """
-    len_ = sum([len(i) for i in bin_])
-    list_val = ["" for i in range(len_)]
-    for i, b in enumerate(bin_):
-        for j in b:
-            list_val[j] = domain[i]
-    return np.array(list_val)
+    if s_method == "means":
+        smoothing = SmoothingByMeans
+    elif s_method == "boundaries":
+        smoothing = SmoothingByBoundaries
+    else:
+        smoothing = SmoothingByMedian
+        
+    for b in bin_:
+        if len(b) > 0:
+            arr[b] = smoothing(arr[b])
+    return arr
 
 
 def discretize(Input, Output, Log):
@@ -79,8 +111,9 @@ def discretize(Input, Output, Log):
     # Nhập số lượng giỏ
     num_bin = pc.InputValue(0, 1, "number of bins: ")
     # Nhập phương pháp chia:
-    method = pc.SelectValue(["EqualDepth", "EqualWidth"], mess="Select method")
-    
+    method = pc.SelectValue(["EqualDepth", "EqualWidth"], mess="Select binning method")
+    # Nhập phương pháp làm trơn:
+    s_method = pc.SelectValue(["means", "boundaries", "median"], mess="Select smoothing method")
     with open(Log, 'w', encoding="utf8") as f:
         for col in num_col:
             if method == "EqualDepth":
@@ -92,6 +125,6 @@ def discretize(Input, Output, Log):
             for i in range(len(bin_)):
                 f.write("\t{:<20}:{:>5}\n".format(domain[i], counts[i]))
                 
-            df[col] = ReplaceValue(bin_, domain)
+            df[col] = ReplaceValue(bin_, df[col].to_numpy(), s_method)
     f.close()
     df.to_csv(Output, index=False)

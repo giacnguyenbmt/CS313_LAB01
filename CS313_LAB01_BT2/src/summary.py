@@ -1,6 +1,7 @@
 import pandas as pd
 import src.preprocessing as pc
 
+
 def summary(Input, Log):
     """
     Thực hiện chức năng summary và ghi thông tin ra log file.

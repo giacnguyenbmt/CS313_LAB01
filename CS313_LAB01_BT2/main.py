@@ -1,6 +1,7 @@
 import sys
 from src import summary, replace, discretize, normalize
 
+
 if __name__ == '__main__':
     # Lấy danh sách tham số
     argumentList = sys.argv[1:]

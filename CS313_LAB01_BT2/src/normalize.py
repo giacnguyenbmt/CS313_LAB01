@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import src.preprocessing as pc
 
+
 def Minmax(df, e=1e-10):
     """
     Chuẩn hoá dữ liệu theo phương pháp Min-max.
